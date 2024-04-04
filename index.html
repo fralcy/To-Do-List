@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My To-Do List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="script.js"></script>
+  <script src="config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+</head>
+</head>
+<body class="bg-gray-100">
+  <!-- Container -->
+  <div class="flex flex-col items-center justify-start h-screen">
+    <!-- Title -->
+    <div class="py-6 text-4xl text-blue-500 font-semibold">
+      To-Do List
+    </div>
+    <!-- Input section -->
+    <div class="flex items-center space-x-4 mb-6">
+      <input type="text" id="task" onkeypress="enterTask(event)" class="border border-gray-400 px-4 py-2 focus:outline-none focus:border-blue-500 rounded w-80" placeholder="Enter task">
+      <button onclick="addTask()" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white px-4 py-2 rounded">Add Task</button>
+    </div>
+    <!-- Task list -->
+    <div class="w-full max-w-md">
+      <ul id="taskList" class="space-y-4">
+      </ul>
+    </div>
+  </div>
+</body>
+</html>
