@@ -133,3 +133,8 @@ function clearTasks() {
     item.remove();
   });
 }
+function autoLoadTasks()
+{
+  // Load tasks when the page loads
+  loadTasks();
+}
