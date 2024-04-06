@@ -24,8 +24,16 @@
     </div>
     <!-- Task list -->
     <div class="w-full">
-      <ul id="taskList" class="space-y-4">
+      <ul id="taskList" class="space-y-4 w-full">
       </ul>
+    </div>  
+    <!-- Footer -->
+    <div class="flex md:flex-row items-stretch items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6 mt-5 w-full md:max-w-md">
+      <button class="bg-green-500 hover:bg-green-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-1/2 md:w-auto" onclick="saveTasks()">
+        Save
+      </button>
+      <button class="bg-yellow-500 hover:bg-yellow-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-1/2 md:w-auto" onclick="loadTasks()">
+        Load
     </div>
   </div>
 </body>
