@@ -10,15 +10,16 @@ function addTask()
   if (taskText.trim() !== "") {
     // Create a new list item
     var li = document.createElement("li");
-    li.className = "flex items-center justify-between gap-x-2 border border-gray-300 px-4 py-2 rounded";
+    li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded";
     // Create a checkbox element
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.className ="form-checkbox w-5 h-5 dark:bg-slate-800";
 
     // Create a span element for the task text
     var p = document.createElement("p");
     p.textContent = taskText;
-    p.className = "text-gray-800 text-pretty";
+    p.className = "text-gray-800 dark:text-gray-200 text-pretty";
     // Create a delete button
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -26,7 +27,7 @@ function addTask()
       // Remove the parent list item when the delete button is clicked
       this.parentNode.remove();
     };
-    deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white px-3 py-2 rounded";
+    deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-3 py-2 rounded";
 
     // Append the checkbox, span, and delete button to the list item
     li.appendChild(checkbox);
@@ -38,11 +39,14 @@ function addTask()
 
     // Clear the input field after adding the task
     taskInput.value = "";
+    // After adding the task, save the updated list to a text file
+    saveTasksToFile();
   } else {
     // Alert the user if the task input is empty
     alert("Please enter a task!");
   }
 }
+//Enter task with Enter key
 function enterTask(event) {
   // Check if the Enter key is pressed (keyCode 13)
   if (event.keyCode === 13) {
