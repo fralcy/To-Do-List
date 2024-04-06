@@ -10,15 +10,15 @@ function addTask()
   if (taskText.trim() !== "") {
     // Create a new list item
     var li = document.createElement("li");
-    li.className = "flex items-center justify-between border border-gray-300 px-4 py-2 rounded";
+    li.className = "flex items-center justify-between gap-x-2 border border-gray-300 px-4 py-2 rounded";
     // Create a checkbox element
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
 
     // Create a span element for the task text
-    var span = document.createElement("span");
-    span.textContent = taskText;
-    span.className = "text-gray-800";
+    var p = document.createElement("p");
+    p.textContent = taskText;
+    p.className = "text-gray-800 text-pretty";
     // Create a delete button
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -30,7 +30,7 @@ function addTask()
 
     // Append the checkbox, span, and delete button to the list item
     li.appendChild(checkbox);
-    li.appendChild(span);
+    li.appendChild(p);
     li.appendChild(deleteButton);
 
     // Append the list item to the task list
