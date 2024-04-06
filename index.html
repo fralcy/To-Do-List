@@ -11,29 +11,34 @@
 </head>
 </head>
 <body class="bg-gray-100 dark:bg-slate-900">
-  <!-- Container -->
   <div class="flex flex-col items-center justify-start min-h-screen px-4">
     <!-- Title -->
-    <div class="py-6 text-2xl md:text-4xl text-blue-500 font-semibold">
+    <h1 class="py-6 text-2xl md:text-4xl text-blue-500 font-semibold">
       To-Do List
-    </div>
+    </h1>
+
     <!-- Input section -->
     <div class="flex flex-col md:flex-row items-stretch md:items-center space-y-4 md:space-y-0 md:space-x-4 mb-6 w-full md:max-w-md">
       <input type="text" id="task" onkeypress="enterTask(event)" class="dark:bg-slate-700 dark:text-gray-200 dark:placeholder-gray-200 border-gray-400 px-4 py-2 focus:outline-none focus:border-blue-500 rounded w-full md:w-80" placeholder="Enter task">
       <button onclick="addTask()" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-full md:w-auto">Add Task</button>
     </div>
+
     <!-- Task list -->
-    <div class="w-full">
-      <ul id="taskList" class="space-y-4 w-full">
-      </ul>
+    <div class="md:w-4/6 w-full">
+      <ul id="taskList" class="space-y-4"></ul>
     </div>  
+
     <!-- Footer -->
-    <div class="flex md:flex-row items-stretch items-center justify-center space-y-4 md:space-y-0 md:space-x-4 mb-6 mt-5 w-full md:max-w-md">
-      <button class="bg-green-500 hover:bg-green-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-1/2 md:w-auto" onclick="saveTasks()">
+    <div class="flex flex md:flex-row items-center justify-center gap-x-14 md:space-y-0 md:space-x-4 mb-6 mt-5 w-full md:max-w-md">
+      <button class="bg-green-500 hover:bg-green-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-2/6 md:w-auto" onclick="saveTasks()">
         Save
       </button>
-      <button class="bg-yellow-500 hover:bg-yellow-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-1/2 md:w-auto" onclick="loadTasks()">
+      <button class="bg-yellow-500 hover:bg-yellow-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-2/6 md:w-auto" onclick="loadTasks()">
         Load
+      </button>
+      <button class="bg-red-500 hover:bg-red-600 active:bg-blue-700 text-white dark:text-gray-200 px-4 py-2 rounded w-2/6 md:w-auto" onclick="clearTasks()">
+        Clear
+      </button>
     </div>
   </div>
 </body>

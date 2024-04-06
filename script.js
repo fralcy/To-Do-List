@@ -126,3 +126,10 @@ function loadTasks() {
     });
   }
 }
+function clearTasks() {
+  // Clear the tasks from the task list
+  var listItems = document.querySelectorAll("li");
+  listItems.forEach(function (item) {
+    item.remove();
+  });
+}
