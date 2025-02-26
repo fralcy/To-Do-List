@@ -5,3 +5,4 @@ This website helps you add the tasks' names and tasks' states. You can save task
 Some additional features:
 - Responsive display
 - System theme preferences
+- Arrange tasks' order

@@ -10,16 +10,32 @@ function addTask()
   if (taskText.trim() !== "") {
     // Create a new list item
     var li = document.createElement("li");
-    li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded";
+    li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded cursor-move";
+    
+    // Add a drag handle icon
+    var dragHandle = document.createElement("div");
+    dragHandle.innerHTML = "⋮⋮";
+    dragHandle.className = "text-gray-500 dark:text-gray-400 mr-2 cursor-move";
+    
     // Create a checkbox element
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.className ="form-checkbox w-5 h-5 dark:bg-slate-800";
+    checkbox.className ="form-checkbox w-5 h-5 text-blue-500 rounded border-gray-400 dark:border-gray-600 dark:bg-slate-700 dark:checked:bg-blue-500 focus:ring-blue-500 dark:focus:ring-blue-600";
 
     // Create a span element for the task text
     var p = document.createElement("p");
     p.textContent = taskText;
-    p.className = "text-gray-800 dark:text-gray-200 text-pretty";
+    p.className = "text-gray-800 dark:text-gray-200 text-pretty flex-grow";
+    
+    // Add event listener to checkbox to toggle the completed style
+    checkbox.addEventListener('change', function() {
+      if (this.checked) {
+        p.classList.add('task-completed');
+      } else {
+        p.classList.remove('task-completed');
+      }
+    });
+    
     // Create a delete button
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
@@ -29,7 +45,8 @@ function addTask()
     };
     deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-3 py-2 rounded";
 
-    // Append the checkbox, span, and delete button to the list item
+    // Append the drag handle, checkbox, span, and delete button to the list item
+    li.appendChild(dragHandle);
     li.appendChild(checkbox);
     li.appendChild(p);
     li.appendChild(deleteButton);
@@ -44,6 +61,7 @@ function addTask()
     alert("Please enter a task!");
   }
 }
+
 //Enter task with Enter key
 function enterTask(event) {
   // Check if the Enter key is pressed (keyCode 13)
@@ -54,6 +72,7 @@ function enterTask(event) {
     addTask();
   }
 }
+
 function saveTasks() {
   console.log("Saving tasks...");
   // Get all list items
@@ -75,6 +94,7 @@ function saveTasks() {
   // Convert the itemsData array to a string and store it in local storage
   localStorage.setItem("listItemsData", JSON.stringify(itemsData));
 }
+
 function loadTasks() {
   // Get the saved tasks data from local storage
   var savedTasks = localStorage.getItem("listItemsData");
@@ -94,18 +114,36 @@ function loadTasks() {
     tasksArray.forEach(function (task) {
       // Create a list item element
       var li = document.createElement("li");
-      li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded";
+      li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded cursor-move";
+
+      // Add a drag handle icon
+      var dragHandle = document.createElement("div");
+      dragHandle.innerHTML = "≡";
+      dragHandle.className = "text-gray-500 dark:text-gray-400 mr-2 cursor-move";
 
       // Create a checkbox element
       var checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.className = "form-checkbox w-5 h-5 dark:bg-slate-800";
+      checkbox.className = "form-checkbox w-5 h-5 text-blue-500 rounded border-gray-400 dark:border-gray-600 dark:bg-slate-700 dark:checked:bg-blue-500 focus:ring-blue-500 dark:focus:ring-blue-600";
       checkbox.checked = task.state === "checked"; // Set checkbox state based on saved state
 
       // Create a span element for the task text
       var p = document.createElement("p");
       p.textContent = task.name;
-      p.className = "text-gray-800 dark:text-gray-200 text-pretty";
+      p.className = "text-gray-800 dark:text-gray-200 text-pretty flex-grow";
+      // If the task is checked, add the completed style
+      if (task.state === "checked") {
+        p.classList.add('task-completed');
+      }
+      
+      // Add event listener to checkbox to toggle the completed style
+      checkbox.addEventListener('change', function() {
+        if (this.checked) {
+          p.classList.add('task-completed');
+        } else {
+          p.classList.remove('task-completed');
+        }
+      });
 
       // Create a delete button
       var deleteButton = document.createElement("button");
@@ -116,7 +154,8 @@ function loadTasks() {
       };
       deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-3 py-2 rounded";
 
-      // Append the checkbox, span, and delete button to the list item
+      // Append the drag handle, checkbox, span, and delete button to the list item
+      li.appendChild(dragHandle);
       li.appendChild(checkbox);
       li.appendChild(p);
       li.appendChild(deleteButton);
@@ -124,8 +163,12 @@ function loadTasks() {
       // Append the list item to the tasks container
       tasksContainer.appendChild(li);
     });
+    
+    // Initialize Sortable after loading tasks
+    initSortable();
   }
 }
+
 function clearTasks() {
   // Clear the tasks from the task list
   var listItems = document.querySelectorAll("li");
@@ -133,8 +176,23 @@ function clearTasks() {
     item.remove();
   });
 }
-function autoLoadTasks()
-{
+
+function autoLoadTasks() {
   // Load tasks when the page loads
   loadTasks();
+  
+  // Initialize Sortable
+  initSortable();
+}
+
+function initSortable() {
+  // Initialize Sortable on the task list
+  new Sortable(document.getElementById('taskList'), {
+    animation: 150,
+    handle: '.cursor-move',
+    onEnd: function(evt) {      
+      // Automatically save the new order when tasks are rearranged
+      saveTasks();
+    }
+  });
 }
