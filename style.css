@@ -12,3 +12,57 @@
   text-decoration: line-through;
   opacity: 0.7;
 }
+
+/* Make handle more touch-friendly and responsive */
+.handle {
+  font-size: 1.2rem;
+  padding: 0 4px;
+  touch-action: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .handle {
+    font-size: 1.5rem;
+    padding: 0 8px;
+  }
+}
+
+/* Improve tap targets for mobile */
+button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Keep checkbox at original size */
+input[type="checkbox"] {
+  min-height: auto;
+  min-width: auto;
+}
+
+/* Ghost class for dragging visual feedback */
+.bg-blue-100 {
+  background-color: rgba(219, 234, 254, 0.4);
+}
+
+/* Disable text selection during drag */
+.sortable-dragging {
+  user-select: none;
+}
+
+/* Fix for iOS/Safari touch events */
+input, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Ensure delete button is easy to tap on mobile */
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

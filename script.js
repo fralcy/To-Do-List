@@ -10,17 +10,17 @@ function addTask()
   if (taskText.trim() !== "") {
     // Create a new list item
     var li = document.createElement("li");
-    li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded cursor-move";
+    li.className = "flex items-center justify-between gap-x-1 md:gap-x-2 border border-gray-300 dark:border-slate-800 px-2 py-1 md:px-4 md:py-2 rounded";
     
     // Add a drag handle icon
     var dragHandle = document.createElement("div");
-    dragHandle.innerHTML = "⋮⋮";
-    dragHandle.className = "text-gray-500 dark:text-gray-400 mr-2 cursor-move";
+    dragHandle.innerHTML = "≡";
+    dragHandle.className = "text-gray-500 dark:text-gray-400 mr-2 handle"; // Changed to 'handle' class for consistency
     
     // Create a checkbox element
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.className ="form-checkbox w-5 h-5 text-blue-500 rounded border-gray-400 dark:border-gray-600 dark:bg-slate-700 dark:checked:bg-blue-500 focus:ring-blue-500 dark:focus:ring-blue-600";
+    checkbox.className ="form-checkbox w-3 h-3 md:w-4 md:h-4 text-blue-500 rounded border-gray-400 dark:border-gray-600 dark:bg-slate-700 dark:checked:bg-blue-500 focus:ring-blue-500 dark:focus:ring-blue-600";
 
     // Create a span element for the task text
     var p = document.createElement("p");
@@ -39,11 +39,11 @@ function addTask()
     // Create a delete button
     var deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
-    deleteButton.onclick = function () {
+    deleteButton.onclick = function() {
       // Remove the parent list item when the delete button is clicked
       this.parentNode.remove();
     };
-    deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-3 py-2 rounded";
+    deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-2 py-1 md:px-3 md:py-2 text-sm md:text-base rounded";
 
     // Append the drag handle, checkbox, span, and delete button to the list item
     li.appendChild(dragHandle);
@@ -56,6 +56,9 @@ function addTask()
 
     // Clear the input field after adding the task
     taskInput.value = "";
+    
+    // Re-initialize Sortable after adding a new task
+    initSortable();
   } else {
     // Alert the user if the task input is empty
     alert("Please enter a task!");
@@ -114,17 +117,17 @@ function loadTasks() {
     tasksArray.forEach(function (task) {
       // Create a list item element
       var li = document.createElement("li");
-      li.className = "flex items-center justify-between gap-x-2 border border-gray-300 dark:border-slate-800 px-4 py-2 rounded cursor-move";
+      li.className = "flex items-center justify-between gap-x-1 md:gap-x-2 border border-gray-300 dark:border-slate-800 px-2 py-1 md:px-4 md:py-2 rounded";
 
       // Add a drag handle icon
       var dragHandle = document.createElement("div");
       dragHandle.innerHTML = "≡";
-      dragHandle.className = "text-gray-500 dark:text-gray-400 mr-2 cursor-move";
+      dragHandle.className = "text-gray-500 dark:text-gray-400 mr-2 handle"; // Changed to 'handle' class for consistency
 
       // Create a checkbox element
       var checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.className = "form-checkbox w-5 h-5 text-blue-500 rounded border-gray-400 dark:border-gray-600 dark:bg-slate-700 dark:checked:bg-blue-500 focus:ring-blue-500 dark:focus:ring-blue-600";
+      checkbox.className = "form-checkbox w-3 h-3 md:w-4 md:h-4 text-blue-500 rounded border-gray-400 dark:border-gray-600 dark:bg-slate-700 dark:checked:bg-blue-500 focus:ring-blue-500 dark:focus:ring-blue-600";
       checkbox.checked = task.state === "checked"; // Set checkbox state based on saved state
 
       // Create a span element for the task text
@@ -148,11 +151,11 @@ function loadTasks() {
       // Create a delete button
       var deleteButton = document.createElement("button");
       deleteButton.textContent = "Delete";
-      deleteButton.onclick = function () {
+      deleteButton.onclick = function() {
         // Remove the parent list item when the delete button is clicked
         this.parentNode.remove();
       };
-      deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-3 py-2 rounded";
+      deleteButton.className = "bg-red-500 hover:bg-red-600 active:bg-red-700 text-white dark:text-gray-200 px-2 py-1 md:px-3 md:py-2 text-sm md:text-base rounded";
 
       // Append the drag handle, checkbox, span, and delete button to the list item
       li.appendChild(dragHandle);
@@ -186,10 +189,23 @@ function autoLoadTasks() {
 }
 
 function initSortable() {
-  // Initialize Sortable on the task list
-  new Sortable(document.getElementById('taskList'), {
+  // Get the task list element
+  var taskList = document.getElementById('taskList');
+  
+  // Destroy any existing sortable instance first
+  var oldSortable = taskList.sortable;
+  if (oldSortable) {
+    oldSortable.destroy();
+  }
+  
+  // Initialize Sortable on the task list with enhanced mobile support
+  taskList.sortable = new Sortable(taskList, {
     animation: 150,
-    handle: '.cursor-move',
+    handle: '.handle', // Changed from .cursor-move to .handle
+    touchStartThreshold: 5, // Lower threshold for mobile touches
+    delay: 150, // Add delay for mobile devices
+    delayOnTouchOnly: true, // Only delay for touch devices
+    ghostClass: 'bg-blue-100', // Visual feedback during drag
     onEnd: function(evt) {      
       // Automatically save the new order when tasks are rearranged
       saveTasks();
